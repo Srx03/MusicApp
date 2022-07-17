@@ -14,6 +14,15 @@ class MusicPlayerEventListener(private val musicServices: MusicServices): Player
                 musicServices.stopForeground(false)
             }
 
+            Player.STATE_BUFFERING -> {
+                TODO()
+            }
+            Player.STATE_ENDED -> {
+                TODO()
+            }
+            Player.STATE_IDLE -> {
+                TODO()
+            }
         }
     }
 
