@@ -28,6 +28,6 @@ class MusicPlayerEventListener(private val musicServices: MusicServices): Player
 
     override fun onPlayerError(error: PlaybackException) {
         super.onPlayerError(error)
-        Toast.makeText(musicServices, "An unknown error", Toast.LENGTH_LONG).show()
+        Toast.makeText(musicServices, "An unknown error!", Toast.LENGTH_LONG).show()
     }
 }
