@@ -19,13 +19,16 @@ import javax.inject.Inject
 class FirebaseMusicSource @Inject constructor(
     private val musicDatabase: MusicDatabase
 ) {
-
     var songs = emptyList<MediaMetadataCompat>()
-
-    suspend fun fetchMediaData() = withContext(Dispatchers.IO){
+    suspend fun fetchMediaData() {
         state = STATE_INITIALIZING
+        getAllSongs()
+        state = STATE_INITIALIZED
+    }
+
+    suspend fun getAllSongs() = withContext(Dispatchers.IO) {
         val allSongs = musicDatabase.getAllSongs()
-        songs = allSongs.map {   song ->
+        songs = allSongs.map { song ->
             MediaMetadataCompat.Builder()
                 .putString(METADATA_KEY_ARTIST, song.subtitle)
                 .putString(METADATA_KEY_MEDIA_ID, song.mediaId)
@@ -38,7 +41,6 @@ class FirebaseMusicSource @Inject constructor(
                 .putString(METADATA_KEY_DISPLAY_DESCRIPTION, song.subtitle)
                 .build()
         }
-            state = STATE_INITZALIZED
     }
 
     fun asMediaSource(dataSourceFactory: DefaultDataSourceFactory): ConcatenatingMediaSource {
@@ -62,39 +64,36 @@ class FirebaseMusicSource @Inject constructor(
         MediaBrowserCompat.MediaItem(desc, FLAG_PLAYABLE)
     }.toMutableList()
 
-    private val onReadyLinsteners = mutableListOf<(Boolean) -> Unit >()
+    private val onReadyListeners = mutableListOf<(Boolean) -> Unit>()
 
     private var state: State = STATE_CREATED
-    set(value){
-        if(value == STATE_INITZALIZED || value == STATE_EROR){
-            synchronized(onReadyLinsteners){
-                field = value
-                onReadyLinsteners.forEach{ listener ->
-                    listener(state == STATE_INITZALIZED)
+        set(value) {
+            if(value == STATE_INITIALIZED || value == STATE_ERROR) {
+                synchronized(onReadyListeners) {
+                    field = value
+                    onReadyListeners.forEach { listener ->
+                        listener(state == STATE_INITIALIZED)
+                    }
                 }
+            } else {
+                field = value
             }
         }
-        else{
-            field = value
-        }
-    }
 
-    fun whenReady(action: (Boolean) -> Unit): Boolean{
-        if(state == STATE_CREATED || state == STATE_INITIALIZING){
-            onReadyLinsteners += action
+    fun whenReady(action: (Boolean) -> Unit): Boolean {
+        if(state == STATE_CREATED || state == STATE_INITIALIZING) {
+            onReadyListeners += action
             return false
-        } else{
-            action(state == STATE_INITZALIZED)
+        } else {
+            action(state == STATE_INITIALIZED)
             return true
         }
     }
-
-
 }
 
 enum class State {
     STATE_CREATED,
     STATE_INITIALIZING,
-    STATE_INITZALIZED,
-    STATE_EROR
+    STATE_INITIALIZED,
+    STATE_ERROR
 }

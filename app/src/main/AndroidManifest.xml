@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.musicapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:name=".MusicApplication"
         android:allowBackup="true"
@@ -14,6 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicApp"
         tools:targetApi="31">
+        <service android:name=".exoplayer.MusicServices"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
