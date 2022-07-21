@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+
 import com.bumptech.glide.RequestManager
 import com.example.musicapp.data.entites.Song
 import com.example.musicapp.databinding.ListItemBinding
@@ -28,7 +28,7 @@ class SongAdapter @Inject constructor(
         }
     }
 
-    val differ = AsyncListDiffer(this, differCallback)
+    private val differ = AsyncListDiffer(this, differCallback)
 
     var songs: List<Song>
         get() = differ.currentList
@@ -42,7 +42,7 @@ class SongAdapter @Inject constructor(
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
         val song = differ.currentList[position]
 
-        Glide.with(holder.itemView).load(song.imageUrl).into(holder.binding.ivItemImage)
+        glide.load(song.imageUrl).into(holder.binding.ivItemImage)
         holder.binding.tvPrimary.text = song.title
         holder.binding.tvSecondary.text = song.subtitle
 

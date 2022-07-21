@@ -5,19 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
-import com.example.musicapp.R
+
 import com.example.musicapp.data.entites.Song
 import com.example.musicapp.databinding.SwipeItemBinding
 import javax.inject.Inject
 
 
-class SwipeSongAdapter@Inject constructor(
-    private val glide: RequestManager
-) : RecyclerView.Adapter<SwipeSongAdapter.SwipeSongViewHolder>()  {
+class SwipeSongAdapter@Inject constructor() : RecyclerView.Adapter<SwipeSongAdapter.SwipeSongViewHolder>()  {
 
-    inner class SwipeSongViewHolder(val binding: SwipeItemBinding): RecyclerView.ViewHolder(binding.root)
+    inner class SwipeSongViewHolder( val binding: SwipeItemBinding): RecyclerView.ViewHolder(binding.root)
 
     private val differCallback = object : DiffUtil.ItemCallback<Song>(){
         override fun areItemsTheSame(oldItem: Song, newItem: Song): Boolean {
@@ -29,7 +25,7 @@ class SwipeSongAdapter@Inject constructor(
         }
     }
 
-    val differ = AsyncListDiffer(this, differCallback)
+    private val differ = AsyncListDiffer(this, differCallback)
 
     var songs: List<Song>
     get() = differ.currentList
@@ -44,6 +40,7 @@ class SwipeSongAdapter@Inject constructor(
         val song = differ.currentList[position]
 
         val text = "${song.title} - ${song.subtitle}"
+        holder.binding.tvPrimary.text = text
 
         holder.itemView.setOnClickListener {
             onItemClickListener?.let { it(song) }
