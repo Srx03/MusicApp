@@ -1,6 +1,5 @@
 package com.example.musicapp.adapters
 
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -8,15 +7,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.example.musicapp.R
 import com.example.musicapp.data.entites.Song
-import com.example.musicapp.databinding.ListItemBinding
+import com.example.musicapp.databinding.SwipeItemBinding
 import javax.inject.Inject
 
-class SongAdapter @Inject constructor(
-    private val glide: RequestManager
-) : RecyclerView.Adapter<SongAdapter.SongViewHolder>()  {
 
-    inner class SongViewHolder(val binding: ListItemBinding ): RecyclerView.ViewHolder(binding.root)
+class SwipeSongAdapter@Inject constructor(
+    private val glide: RequestManager
+) : RecyclerView.Adapter<SwipeSongAdapter.SwipeSongViewHolder>()  {
+
+    inner class SwipeSongViewHolder(val binding: SwipeItemBinding): RecyclerView.ViewHolder(binding.root)
 
     private val differCallback = object : DiffUtil.ItemCallback<Song>(){
         override fun areItemsTheSame(oldItem: Song, newItem: Song): Boolean {
@@ -31,20 +32,18 @@ class SongAdapter @Inject constructor(
     val differ = AsyncListDiffer(this, differCallback)
 
     var songs: List<Song>
-        get() = differ.currentList
-        set(value) = differ.submitList(value)
+    get() = differ.currentList
+    set(value) = differ.submitList(value)
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
-        return SongViewHolder(ListItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SwipeSongViewHolder {
+        return SwipeSongViewHolder(SwipeItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
-    override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SwipeSongViewHolder, position: Int) {
         val song = differ.currentList[position]
 
-        Glide.with(holder.itemView).load(song.imageUrl).into(holder.binding.ivItemImage)
-        holder.binding.tvPrimary.text = song.title
-        holder.binding.tvSecondary.text = song.subtitle
+        val text = "${song.title} - ${song.subtitle}"
 
         holder.itemView.setOnClickListener {
             onItemClickListener?.let { it(song) }
