@@ -15,6 +15,7 @@ import com.example.musicapp.databinding.ActivityMainBinding
 import com.example.musicapp.exoplayer.isPlaying
 import com.example.musicapp.exoplayer.toSong
 import com.example.musicapp.other.Status.*
+import com.example.musicapp.ui.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*

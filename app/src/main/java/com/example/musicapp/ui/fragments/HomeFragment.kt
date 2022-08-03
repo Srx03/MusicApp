@@ -11,11 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicapp.adapters.SongAdapter
 import com.example.musicapp.databinding.FragmentHomeBinding
-import com.example.musicapp.other.Resource
 import com.example.musicapp.other.Status
-import com.example.musicapp.ui.MainViewModel
+import com.example.musicapp.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
 @AndroidEntryPoint

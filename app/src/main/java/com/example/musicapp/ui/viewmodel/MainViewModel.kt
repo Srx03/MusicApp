@@ -1,4 +1,4 @@
-package com.example.musicapp.ui
+package com.example.musicapp.ui.viewmodel
 
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat.METADATA_KEY_MEDIA_ID
