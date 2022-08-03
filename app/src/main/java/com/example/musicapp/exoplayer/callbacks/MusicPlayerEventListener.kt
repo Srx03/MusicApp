@@ -9,20 +9,9 @@ class MusicPlayerEventListener(private val musicServices: MusicServices): Player
 
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-        when(playbackState){
-            Player.STATE_READY ->{
-                musicServices.stopForeground(false)
-            }
-
-            Player.STATE_BUFFERING -> {
-                TODO()
-            }
-            Player.STATE_ENDED -> {
-                TODO()
-            }
-            Player.STATE_IDLE -> {
-                TODO()
-            }
+        super.onPlayerStateChanged(playWhenReady, playbackState)
+        if(playbackState == Player.STATE_READY && !playWhenReady) {
+            musicServices.stopForeground(false)
         }
     }
 
