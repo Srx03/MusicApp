@@ -10,4 +10,6 @@ object Constatns {
     const val ROOT_ID = "root_id"
 
     const val NETWORK_ERROR = "NETWORK_ERROR"
+
+    const val UPDATE_POSITION = 100L
 }
