@@ -12,10 +12,12 @@ import com.example.musicapp.data.entites.Song
 import com.example.musicapp.databinding.FragmentHomeBinding
 
 import com.example.musicapp.databinding.FragmentSongBinding
+import com.example.musicapp.exoplayer.toSong
 import com.example.musicapp.other.Status
 import com.example.musicapp.ui.viewmodel.MainViewModel
 import com.example.musicapp.ui.viewmodel.SongViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_song.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -45,6 +47,7 @@ class SongFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        subscribeToObserves()
     }
 
     private fun updateTitleAndSongImage(song: Song){
@@ -69,6 +72,15 @@ class SongFragment : Fragment() {
                 }
             }
         }
+
+        mainViewModel.currentingPlayingSong.observe(viewLifecycleOwner){
+            if(it == null) return@observe
+            currentPlayingSong = it.toSong()
+            updateTitleAndSongImage(currentPlayingSong!!)
+        }
+
     }
+
+
 
 }
