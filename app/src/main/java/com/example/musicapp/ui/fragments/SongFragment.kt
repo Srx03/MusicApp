@@ -12,8 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.RequestManager
 import com.example.musicapp.R
 import com.example.musicapp.data.entites.Song
-import com.example.musicapp.databinding.FragmentHomeBinding
-
 import com.example.musicapp.databinding.FragmentSongBinding
 import com.example.musicapp.exoplayer.isPlaying
 import com.example.musicapp.exoplayer.toSong
@@ -127,17 +125,13 @@ class SongFragment : Fragment() {
             binding.ivPlayPauseDetail.setImageResource(
                 if (playbackState?.isPlaying == true) R.drawable.ic_pause else R.drawable.ic_play
             )
-
-
             binding.seekBar.progress = it?.position?.toInt()?: 0
         }
 
-        songViewModel.currentPlayerPosition.observe(viewLifecycleOwner){
-            if (shouldUpdateSeekBar){
-                it?.let {
-               binding.seekBar.progress = it.toInt()
-                setCurrentPlayerTimeToView(it)
-              }
+        songViewModel.currentPlayerPosition.observe(viewLifecycleOwner) {
+            if(shouldUpdateSeekBar) {
+                binding.seekBar.progress = it.toInt()
+              setCurrentPlayerTimeToView(it)
             }
         }
 
@@ -146,7 +140,6 @@ class SongFragment : Fragment() {
             val dateFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
             binding.tvSongDuration.text = dateFormat.format(it)
         }
-
     }
 
 private fun setCurrentPlayerTimeToView(ms: Long){

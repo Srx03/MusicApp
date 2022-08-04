@@ -71,17 +71,13 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-
         navHostFragment.findNavController().addOnDestinationChangedListener{_, destination, _ ->
         when(destination.id){
             R.id.songFragment -> hideBottomBar()
             R.id.homeFragment -> showBottomBar()
             else -> showBottomBar()
+          }
         }
-        }
-
-
-
     }
 
     private fun hideBottomBar(){
@@ -103,7 +99,6 @@ private fun switchViewPagerToCurrentSong(song: Song){
         currentSongPlaying = song
     }
 }
-
 
     private fun subscribeToObservers(){
         mainViewModel.mediaItems.observe(this){
@@ -145,10 +140,8 @@ private fun switchViewPagerToCurrentSong(song: Song){
                     ERROR -> Snackbar.make(rootLayout, result.message?: "An unknown error occured", Snackbar.LENGTH_LONG).show()
                 else -> Unit
                 }
-
             }
         }
-
 
         mainViewModel.networkError.observe(this){
             it?.getContentIfNotHandled()?.let { result ->
@@ -156,10 +149,7 @@ private fun switchViewPagerToCurrentSong(song: Song){
                     ERROR -> Snackbar.make(rootLayout, result.message?: "An unknown error occured", Snackbar.LENGTH_LONG).show()
                     else -> Unit
                 }
-
             }
         }
-
     }
-
 }
